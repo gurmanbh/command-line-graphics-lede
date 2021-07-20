@@ -51,6 +51,11 @@ mkdir svg png annotated
 # If I want to do a range, I will do it like this
 for ((year=1980;year<=2019;year++))
 # in shell scripts, we start a block of actions in the loop with do
+####################################################################
+###	 			IF YOU ARE ON WINDOWS 							 ###
+###  	Run the for loop as a .sh file (kinda like this one). 	 ###
+### as `bash script.sh` or whatever the file name is in cmder 	 ###
+####################################################################
 do
 	# Get that projection
 	# same colorizer jazz, followed by that fill thing
