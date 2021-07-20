@@ -47,9 +47,9 @@ mkdir svg png annotated
 
 # I want the thing only for select years, so I can write it like this
 
-for year in 1980 1985 1990 1995 2000 2005 2010 2015 2019
+# for year in 1980 1985 1990 1995 2000 2005 2010 2015 2019
 # If I want to do a range, I will do it like this
-# for ((year=1980;year<=2019;year++))
+for ((year=1980;year<=2019;year++))
 # in shell scripts, we start a block of actions in the loop with do
 do
 	# Get that projection
@@ -72,7 +72,7 @@ do
 	# -annotate followed by x,y coords of where I want my annotation to be
 	# The text of the annotation. Which in this case is ${year}
 	# the file that I want to write this to
-	convert png/${year}.png -background white -alpha remove -alpha off -gravity South -fill black -pointsize 24 -annotate +0+5 ${year} annotated/${year}.png
+	magick convert png/${year}.png -background white -alpha remove -alpha off -gravity South -fill black -pointsize 24 -annotate +0+5 ${year} annotated/${year}.png
 done
 # We close the loop with done
 
@@ -81,12 +81,12 @@ cd annotated
 # and gif it all
 # -delay 50 is the delay between things
 # -loop 0 means it'll loop forever
-convert -delay 50 *.png -loop 0  animate.gif
+magick convert -delay 50 *.png -loop 0  animate.gif
 
 # Let us add a label and a title
 
 # coalease - come together to form one mass or whole
-convert animate.gif -coalesce \
+magick convert animate.gif -coalesce \
           -gravity NorthWest -draw 'image over 0,0 0,0 "../label.png"' \
           -gravity North -pointsize 20 -background white -splice 0x18 \
           -annotate 0 'Mortality rate, under-5 (per 1,000 live births)' \
