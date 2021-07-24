@@ -30,13 +30,14 @@ mapshaper out.geojson -proj natearth -o projection.json
 # -colorizer defines a function to calculate colors based on breaks. we give the function a name.
 # And then we give our buckets some colors 
 # And then we define the breaks
-# we call the function and give our svg a fill 
+# we call the function and give our svg a fill.
+# We use the d["2019"] format because our column header is a number. 
 # The \ in the end make sure we escape the enter that comes after it. 
 # If we wrote the thing in a whole long line. That would work too.
 mapshaper projection.json \
 	-colorizer name=getColor colors='#f0f9e8,#bae4bc,#7bccc4,#2b8cbe' \
 		breaks=25,50,75 \
-	-style fill='getColor(y2019)' \
+	-style fill='getColor(d["2019"])' \
 	-o output.svg  # In the end, we output the whole thing as an svg
 
 # It works!!!!!!!
@@ -64,7 +65,7 @@ do
 	# Everywhere ${year} refers to the year we are looping through
 	mapshaper projection.json \
 	-colorizer colors='#f0f9e8,#bae4bc,#7bccc4,#2b8cbe' name=getColor breaks=25,50,75 \
-	-style fill='getColor(y'${year}')' \
+	-style fill='getColor(d["'${year}'"])' \
 	-style stroke='rgba(255,255,255,.5)' \
 	-o svg/${year}.svg
 	# aha! here comes svg export. converts an svg to a png
