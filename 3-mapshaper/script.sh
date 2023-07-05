@@ -31,13 +31,13 @@ mapshaper out.geojson -proj natearth -o projection.json
 # And then we give our buckets some colors 
 # And then we define the breaks
 # we call the function and give our svg a fill.
-# We use the d["2019"] format because our column header is a number. 
+# We use the d["2021"] format because our column header is a number. 
 # The \ in the end make sure we escape the enter that comes after it. 
 # If we wrote the thing in a whole long line. That would work too.
 mapshaper projection.json \
 	-colorizer name=getColor colors='#f0f9e8,#bae4bc,#7bccc4,#2b8cbe' \
 		breaks=25,50,75 \
-	-style fill='getColor(d["2019"])' \
+	-style fill='getColor(d["2021"])' \
 	-o output.svg  # In the end, we output the whole thing as an svg
 
 # It works!!!!!!!
@@ -48,9 +48,9 @@ mkdir svg png annotated
 
 # I want the thing only for select years, so I can write it like this
 
-# for year in 1980 1985 1990 1995 2000 2005 2010 2015 2019
+# for year in 1980 1985 1990 1995 2000 2005 2010 2015 2020
 # If I want to do a range, I will do it like this
-for ((year=1980;year<=2019;year++))
+for ((year=1980;year<=2020;year++))
 # in shell scripts, we start a block of actions in the loop with do
 ####################################################################
 ###	 			IF YOU ARE ON WINDOWS 							 ###
