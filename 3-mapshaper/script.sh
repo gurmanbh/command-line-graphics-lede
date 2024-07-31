@@ -7,9 +7,8 @@
 # Using world bank data here https://data.worldbank.org/indicator/SH.DYN.MORT?view=chart
 # You can do this for whatever indicator you feel like
 
-# Let's get some boundaries for the world from the World Bank https://datacatalog.worldbank.org/dataset/world-bank-official-boundaries
-# I am using a lowres geojson
-curl -o wb-shapefile.zip https://development-data-hub-s3-public.s3.amazonaws.com/ddhfiles/779551/wb_boundaries_geojson_lowres.zip
+# Let's get some boundaries for the world from the World Bank https://datacatalog.worldbank.org/search/dataset/0038272/World-Bank-Official-Boundaries
+curl -L -o wb-shapefile.zip https://ckan.africadatahub.org/dataset/2758568a-3d65-4448-896a-a2bec70e0ede/resource/5f4fb765-a84d-48b5-ad39-1d99e52a241a/download/wb_boundaries_geojson_lowres.zip
 
 # let's unzip it 
 unzip wb-shapefile.zip
@@ -24,7 +23,7 @@ mapshaper WB_Boundaries_GeoJSON_lowres/WB_countries_Admin0_lowres.geojson -join 
 mapshaper -projections
 
 # I like natural earth. so going to change my data to that projection using the -proj flag
-mapshaper out.geojson -proj natearth -o projection.json
+mapshaper out.geojson -proj eck1 -o projection.json
 
 # Let us test out a map. 
 # -colorizer defines a function to calculate colors based on breaks. we give the function a name.
@@ -35,7 +34,7 @@ mapshaper out.geojson -proj natearth -o projection.json
 # The \ in the end make sure we escape the enter that comes after it. 
 # If we wrote the thing in a whole long line. That would work too.
 mapshaper projection.json \
-	-colorizer name=getColor colors='#f0f9e8,#bae4bc,#7bccc4,#2b8cbe' \
+	-colorizer name=getColor colors='#feebe2,#fbb4b9,#f768a1,#ae017e' \
 		breaks=25,50,75 \
 	-style fill='getColor(d["2021"])' \
 	-o output.svg  # In the end, we output the whole thing as an svg
@@ -78,7 +77,7 @@ do
 	# -annotate followed by x,y coords of where I want my annotation to be
 	# The text of the annotation. Which in this case is ${year}
 	# the file that I want to write this to
-	magick convert png/${year}.png -background white -alpha remove -alpha off -gravity South -fill black -pointsize 24 -annotate +0+5 ${year} annotated/${year}.png
+	magick png/${year}.png -background white -alpha remove -alpha off -gravity South -fill black -pointsize 24 -annotate +0+5 ${year} annotated/${year}.png
 done
 # We close the loop with done
 
@@ -87,13 +86,13 @@ cd annotated
 # and gif it all
 # -delay 50 is the delay between things
 # -loop 0 means it'll loop forever
-magick convert -delay 50 *.png -loop 0  animate.gif
+magick -delay 50 *.png -loop 0  animate.gif
 
 # Let us add a label and a title
 
 # coalease - come together to form one mass or whole
-magick convert animate.gif -coalesce \
+magick animate.gif -coalesce \
           -gravity NorthWest -draw 'image over 0,0 0,0 "../label.png"' \
-          -gravity North -pointsize 20 -background white -splice 0x18 \
-          -annotate 0 'Mortality rate, under-5 (per 1,000 live births)' \
+          -gravity North -pointsize 20 -background white -splice 0x40 \
+          -annotate +0+10 'Mortality rate, under-5 (per 1,000 live births)' \
           -layers Optimize  animate-label.gif
