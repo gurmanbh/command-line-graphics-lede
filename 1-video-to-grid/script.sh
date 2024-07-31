@@ -12,7 +12,7 @@
 # -r flag defines the framerate. 0.5 frame rate means 1 frame every 2 seconds. 
 # frame rate of 1 means 1 frame every second. 15 means 15 frames every second.
 # %04d means it will assign numbers with a 4 digit padding to the images that are generated. 
-ffmpeg -i hoop.mp4 -filter:v scale=720:-1 -r 1 output_%04d.png
+ffmpeg -i hibiscus.mp4 -filter:v scale=720:-1 -r 1 output_%04d.png
 # Now we'll have a bunch of images in our folder. 
 # We want to turn our images to a grid of images. 
 
@@ -23,7 +23,7 @@ ffmpeg -i hoop.mp4 -filter:v scale=720:-1 -r 1 output_%04d.png
 # -geometry +0+0 means no spaces between images
 # then I ask it to take ALL pngs starting with output using `output*.png`. it is a regex
 # And save the whole thing as out.png
-magick montage -tile 2x3 -geometry +0+0 output*.png grid.png
+magick montage -tile 4x -geometry +0+0 output*.png grid.png
 
 # Another way to do this will be using the legacy montage.
 # both are same and work in a similar manner.
