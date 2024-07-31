@@ -20,7 +20,7 @@ curl -L -o report.pdf https://www.justice.gov/storage/report.pdf
 
 # Turn all pages into pngs. Because of all the pages, it might take a while.
 # we resize the images to 25% of the original size. And %03d means 3 digit padding for the numbers.
-magick convert report.pdf -resize 25% report-%03d.png
+magick report.pdf -resize 25% report-%03d.png
 
 # Turn it to a montage
 magick montage -tile 15x0 -geometry +0+0 report*.png grid-withgeo.png
@@ -28,6 +28,6 @@ magick montage -tile 15x0 -geometry +0+0 report*.png grid-withgeo.png
 # Or a gif! Maybe the pages should be bigger for that?
 # density 72 means 72 dpi. dpi means dots per inch. the computer and screen equivalent of that is pixels per inch.
 # Make bigger images
-magick convert -density 72 report.pdf -resize 50% -background white -alpha remove -alpha off report-bigger-%03d.png
+magick -density 72 report.pdf -resize 50% -background white -alpha remove -alpha off report-bigger-%03d.png
 # GIF it!
-magick convert -delay 20 report-bigger*.png -loop 0  animate.gif
+magick -delay 20 report-bigger*.png -loop 0  animate.gif
